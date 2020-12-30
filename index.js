@@ -19,7 +19,7 @@ var T = new Twit({
 var daysOfYear, counter = 1,
     d = new Date();
 
-// Twitter Bot Initialised on Jan 1st 2021 0300 UTC hours
+// Twitter Bot Initialised on Jan 1st 2021 0300 UTC hours || 08:30 IST
 if (d.getFullYear === 2021 && d.getUTCHours() === 3) {
     tweetStart();
 }
@@ -39,7 +39,7 @@ async function tweetStart() {
     if (counterVerify !== counter) {
         counter = counterVerify;
     }
-    
+
     T.post('statuses/update', {
         status: tweet
     }, tweetCallback());
