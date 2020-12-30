@@ -20,7 +20,7 @@ var daysOfYear, counter = 1,
     d = new Date();
 
 // Twitter Bot Initialised on Jan 1st 2021 0300 UTC hours || 08:30 IST
-if (d.getFullYear === 2021 && d.getUTCHours() === 3) {
+if (d.getFullYear >= 2021 && d.getUTCHours() === 3) {
     tweetStart();
 }
 // Setting Interval for Function repetition
