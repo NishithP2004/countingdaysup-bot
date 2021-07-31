@@ -4,7 +4,7 @@
 var Twit = require('twit');
 const fetch = require('node-fetch');
 //const db = require('quick.db');
-const log =  require('./log.json');
+const log = require('./log.json');
 const fs = require('fs');
 require('dotenv').config();
 
@@ -64,9 +64,9 @@ async function tweetStart() {
     if (counter === daysOfYear) {
         counter = 1;
         log["daysWorked"] = counter;
-    fs.writeFileSync('./log.json', JSON.stringify(log), null, 2), (err) => {
-        if (err) console.log(err);
-    }
+        fs.writeFileSync('./log.json', JSON.stringify(log), null, 2), (err) => {
+            if (err) console.log(err);
+        }
     }
 
     function tweetCallback(data, err, response) {
