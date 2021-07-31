@@ -3,7 +3,9 @@
 
 var Twit = require('twit');
 const fetch = require('node-fetch');
-const db = require('quick.db');
+//const db = require('quick.db');
+const log =  require('./log.json');
+const fs = require('fs');
 require('dotenv').config();
 
 // Twitter API Configuration
@@ -16,7 +18,7 @@ var T = new Twit({
     strictSSL: true
 })
 
-var daysOfYear, counter = 1,
+var daysOfYear, counter = log["daysWorked"],
     d = new Date();
 
 // Twitter Bot Initialised on Jan 1st 2021 0300 UTC hours || 08:30 IST
@@ -34,7 +36,7 @@ async function tweetStart() {
     const dateString = arr.splice(0, arr.length - 2).join(" ");
     var tweet = `Day ${counter} \nDate: ${dateString} \n\n${data.content} —${data.author} \nHave a great Day!!`;
 
-    var counterVerify = db.get("Number of days worked");
+    var counterVerify = log["daysWorked"];
 
     if (counterVerify !== counter) {
         counter = counterVerify;
@@ -45,7 +47,10 @@ async function tweetStart() {
     }, tweetCallback());
 
     ++counter;
-    db.set("Number of days worked", counter);
+    log["daysWorked"] = counter;
+    fs.writeFileSync('./log.json', JSON.stringify(log), null, 2), (err) => {
+        if (err) console.log(err);
+    }
 
     // Verifying whether Leap year or not
     if (date.getFullYear() % 4 === 0) {
@@ -58,13 +63,17 @@ async function tweetStart() {
     // Resetting counter value after a year
     if (counter === daysOfYear) {
         counter = 1;
+        log["daysWorked"] = counter;
+    fs.writeFileSync('./log.json', JSON.stringify(log), null, 2), (err) => {
+        if (err) console.log(err);
+    }
     }
 
     function tweetCallback(data, err, response) {
         if (err) {
             console.log(err);
         } else {
-            console.log('Success !!');
+            console.log(`Day ${counter - 1} success !!`);
         }
     }
 }
