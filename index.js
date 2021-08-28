@@ -3,9 +3,6 @@
 
 var Twit = require('twit');
 const fetch = require('node-fetch');
-//const db = require('quick.db');
-const log = require('./log.json');
-const fs = require('fs');
 require('dotenv').config();
 
 // Twitter API Configuration
@@ -18,8 +15,7 @@ var T = new Twit({
     strictSSL: true
 })
 
-var daysOfYear, counter = log["daysWorked"],
-    d = new Date();
+var d = new Date();
 
 // Twitter Bot Initialised on Jan 1st 2021 0300 UTC hours || 08:30 IST
 /* if (d.getFullYear() >= 2021 && d.getUTCHours() === 6) {
@@ -33,49 +29,23 @@ setInterval(tweetStart, 60 * 60 * 24 * 1000);
 async function tweetStart() {
     let date = new Date();
     const response = await fetch('https://api.quotable.io/random')
+    let dayData = await fetch("http://worldtimeapi.org/api/timezone/Asia/Kolkata")
+          .then(res => res.json())
+    let day = dayData['day_of_year'];
     const data = await response.json()
     const arr = date.toUTCString().slice(0).split(/ +/);
     const dateString = arr.splice(0, arr.length - 2).join(" ");
-    var tweet = `Day ${counter} \nDate: ${dateString} \n\n${data.content} —${data.author} \nHave a great Day!!`;
-
-    var counterVerify = log["daysWorked"];
-
-    if (counterVerify !== counter) {
-        counter = counterVerify;
-    }
+    var tweet = `Day ${day} \nDate: ${dateString} \n\n${data.content} —${data.author} \nHave a great Day!!`;
 
     T.post('statuses/update', {
         status: tweet
     }, tweetCallback());
 
-    ++counter;
-    log["daysWorked"] = counter;
-    fs.writeFileSync('./log.json', JSON.stringify(log), null, 2), (err) => {
-        if (err) console.log(err);
-    }
-
-    // Verifying whether Leap year or not
-    if (date.getFullYear() % 4 === 0) {
-        daysOfYear = 366;
-
-    } else {
-        daysOfYear = 365;
-    }
-
-    // Resetting counter value after a year
-    if (counter === daysOfYear) {
-        counter = 1;
-        log["daysWorked"] = counter;
-        fs.writeFileSync('./log.json', JSON.stringify(log), null, 2), (err) => {
-            if (err) console.log(err);
-        }
-    }
-
     function tweetCallback(data, err, response) {
         if (err) {
             console.log(err);
         } else {
-            console.log(`Day ${counter - 1} success !!`);
+            console.log(`Day ${day} success !!`);
         }
     }
 }
