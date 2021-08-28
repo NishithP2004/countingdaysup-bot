@@ -30,7 +30,7 @@ async function tweetStart() {
     let date = new Date();
     const response = await fetch('https://api.quotable.io/random')
     let dayData = await fetch("http://worldtimeapi.org/api/timezone/Asia/Kolkata")
-          .then(res => res.json())
+        .then(res => res.json())
     let day = dayData['day_of_year'];
     const data = await response.json()
     const arr = date.toUTCString().slice(0).split(/ +/);
