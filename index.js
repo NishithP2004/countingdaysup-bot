@@ -30,7 +30,7 @@ app.get('/trigger', (req, res) => {
 })
 
 app.get('/', (req, res) => {
-    res.send(`<style>b { color: #3BD671; } p  { font-family: 'Fredoka One', cursive }</style> <p>Counting Days Up Bot is : <b>Online</b></p>`)
+    res.sendFile(__dirname + "/index.html")
 })
 
 // Instagram API Configuration
@@ -176,7 +176,7 @@ const IGUploadPic = async (tweetId) => {
 
             await client.uploadPhoto({
                 photo,
-                caption: "Testing",
+                caption: "Quote for the day.",
                 post: "feed"
             })
         }, 30000)
