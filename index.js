@@ -72,10 +72,10 @@ async function tweetStart() {
             console.log(err)
         } else {
             console.log(tweet.id_str)
-            IGLoginFunc();
-            setTimeout(() => {
+            IGLoginFunc(tweet.id_str);
+            /* setTimeout(() => {
                 IGUploadPic(tweet.id_str);
-            }, 30000)
+            }, 30000) */
         }
     })
 }
@@ -149,19 +149,25 @@ async function pngToJpeg(tweetId) {
 
 }
 
-const IGLoginFunc = async () => {
+const IGLoginFunc = async (tweetId) => {
     try {
         await client.login({
-            username: process.env.INSTA_USERNAME,
-            password: process.env.INSTA_PASSWORD
-        }).then(() => console.log(`Logged in as ${process.env.INSTA_USERNAME}`))
+                username: process.env.INSTA_USERNAME,
+                password: process.env.INSTA_PASSWORD
+            })
+            .then(() => console.log(`Logged in as ${process.env.INSTA_USERNAME}`))
+            .then(() => {
+                setTimeout(() => {
+                    IGUploadPic(tweetId);
+                }, 30000)
+            })
     } catch (e) {
         if (e) {
             console.log("Login Failed !")
             console.log("Retrying in 120s !")
 
             setTimeout(() => {
-                IGLoginFunc();
+                IGLoginFunc(tweetId);
             }, 1200000)
         }
     }
