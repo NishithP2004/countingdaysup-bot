@@ -22,13 +22,6 @@ app.listen(port, () => {
     console.log(`Listening on port: ${port}`)
 })
 
-app.get('/trigger', (req, res) => {
-    tweetStart();
-    res.send({
-        "Status": "Triggered"
-    });
-})
-
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/index.html")
 })
