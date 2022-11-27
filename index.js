@@ -9,9 +9,9 @@ const fetch = require('node-fetch');
 }) => fetch(...args)); */
 require('dotenv').config();
 const fs = require('fs');
-const Instagram = require('instagram-web-api');
+/* const Instagram = require('instagram-web-api');
 const FileCookieStore = require("tough-cookie-filestore2");
-const Jimp = require('jimp');
+const Jimp = require('jimp'); */
 const cron = require('node-cron');
 const express = require('express');
 
@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + "/index.html")
 })
 
-// Instagram API Configuration
+/* // Instagram API Configuration
 const cookieStore = new FileCookieStore("./cookies.json");
 const client = new Instagram({
     username: process.env.INSTA_USERNAME,
@@ -34,7 +34,7 @@ const client = new Instagram({
     cookieStore
 }, {
     language: "en-US"
-})
+}) */
 
 
 // Twitter API Configuration
@@ -65,7 +65,7 @@ async function tweetStart() {
             console.log(err)
         } else {
             console.log(tweet.id_str)
-            IGLoginFunc(tweet.id_str);
+            // IGLoginFunc(tweet.id_str);
             /* setTimeout(() => {
                 IGUploadPic(tweet.id_str);
             }, 30000) */
@@ -74,7 +74,7 @@ async function tweetStart() {
 }
 
 // Instagram Methods
-async function getTweetImg(tweetId) {
+/* async function getTweetImg(tweetId) {
     const obj = {
         method: "POST",
         headers: {
@@ -122,7 +122,7 @@ async function pngToJpeg(tweetId) {
         .catch(e => console.log(e))
 
 
-    /* await fetch(url)
+    await fetch(url)
         .then(res => {
             const dest = fs.createWriteStream(`./images/tweet.png`);
             res.body.pipe(dest)
@@ -138,7 +138,7 @@ async function pngToJpeg(tweetId) {
                     console.error(err);
                 });
         })
-        .catch(e => console.log(e)) */
+        .catch(e => console.log(e)) 
 
 }
 
@@ -192,7 +192,7 @@ const IGUploadPic = async (tweetId) => {
         }
     }
 
-}
+} */
 
 
 // Scheduling Tweet at 08:45 am IST daily
